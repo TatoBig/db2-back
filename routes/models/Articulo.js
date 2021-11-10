@@ -5,7 +5,7 @@ const ArticuloSchema = new mongoose.Schema({
   articulo: String,
   fecha: Date,
   Estudiante_id: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId,
     required: true
   },
   EstudianteAutorizacion_id: {
