@@ -1,45 +1,18 @@
 import mongoose, { Schema } from 'mongoose'
 import timestamps from 'mongoose-timestamp'
-import { composeWithMongoose } from 'graphql-compose-mongoose'
+import taskSchema from './taskSchema'
 
-var UserSchema = new Schema(
-  {
-    username: {
-      type: String,
-      trim: true,
-      required: true
-    }
-    // password: {
-    //   type: String,
-    //   required: true,
-    //   bcrypt: true
-    // },
-    // tasks: [
-    //   {
-    //     title: {
-    //       type: String,
-    //       required: true
-    //     },
-    //     description: {
-    //       type: String
-    //     },
-    //     done: {
-    //       type: Boolean,
-    //       required: true,
-    //       default: false
-    //     }
-    //   }
-    // ],
-  },
-  {
-    collection: 'users'
-  }
-)
+const userSchema = new Schema({
+  _id: mongoose.Types.ObjectId,
+  fullId: String,
+  username: String,
+  password: String,
+  email: String, 
+  tasks: [taskSchema]
+})
 
-UserSchema.plugin(require('mongoose-bcrypt'))
-UserSchema.plugin(timestamps)
+userSchema.plugin(timestamps)
+userSchema.index({ createdAt: 1, updatedAt: 1 })
 
-UserSchema.index({ createdAt: 1, updatedAt: 1 })
-
-export const User = mongoose.model('User', UserSchema)
-export const UserTC = composeWithMongoose(User)
+const User = mongoose.model('User', userSchema)
+export default User
